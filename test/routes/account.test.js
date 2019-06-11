@@ -1,4 +1,5 @@
 const sinon = require('sinon');
+
 const mongoose = require('mongoose')
 mongoose.set('debug', true)
 require('sinon-mongoose')
@@ -7,6 +8,7 @@ const app = require('../../index.js')
 
 const agent = require('supertest').agent(app);
 const expect = require('chai').expect;
+
 const Account = require('../../models/accounts.js')
 
 var accountMock = sinon.mock(Account)
@@ -42,31 +44,34 @@ describe('account.get', () => {
   it('Should return our accounts', (done) => {
     
     accountMock
-			.expects('find')
-			.chain('exec')
-			.resolves([expected]);
+		.expects('find')
+		.chain('exec')
+		.resolves([expected]);
 
-			agent
-			.get('/accounts')
-			.end((err,res) => {
-				expect(res.status).to.equal(200);
-				expect(res.body).to.eql([expected]);
-				done();
+		agent
+		.get('/accounts')
+		.end((err,res) => {
+			expect(res.status).to.equal(200);
+			expect(res.body).to.eql([expected]);
+			done();
     })
 	})
 	
 	it('Should get a user by name', (done) => {
+
 		accountMock
-			.expects('findOne')
-			.chain('exec')
-			.resolves(expected);
+		.expects('findOne')
+		.chain('exec')
+		.resolves(expected);
+
 		agent
-			.get('/accounts?name=Marcus')
-			.end((err, res) => {
-				expect(res.status).to.equal(200);
-				expect(res.body).to.eql(expected);
-				done();
+		.get('/accounts?name=Marcus')
+		.end((err, res) => {
+			expect(res.status).to.equal(200);
+			expect(res.body).to.eql(expected);
+			done();
 		})
+
 	})
 });
 });
