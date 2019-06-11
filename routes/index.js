@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
     res.status(200).json({
-      message: 'Welcome to Project Support',
+      message: 'Welcome to nhl-backend',
     });
   });
 router.get('/accounts', account.get);
