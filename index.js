@@ -5,7 +5,7 @@ const db = require('./models');
 const app = express();
 
 // environment variable PORT or 3000 if unset
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 2000;
 
 app.use(express.json());
 app.use(cors());
@@ -35,5 +35,3 @@ db.connectDb().then(() => {
 }).catch((error) => {
   console.error(error);
 });
-
-

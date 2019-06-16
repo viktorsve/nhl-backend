@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Account = require('./accounts.js');
+const Counter = require('./counter.js')
 
 const uri = process.env.DATABASE_URL || "mongodb+srv://NHL-API:jFMyPGDfwjIhZLZS@cluster0-nq4cc.gcp.mongodb.net/test?retryWrites=true&w=majority"
 
