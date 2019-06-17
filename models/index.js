@@ -14,7 +14,7 @@ mongoose.set('useCreateIndex', true)
 module.exports = {
     connectDb,
     models: {
-        Account,
+        User,
         Counter
     }
 }
