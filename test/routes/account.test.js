@@ -38,6 +38,24 @@ describe('Testing', () => {
     "__v": 0
   }
 
+	describe('accounts.post', ()  => {
+		it('Should be able to create a account', (done) => {
+			accountMock
+			.expects('create')
+			.withArgs(request)
+			.chain('exec')
+			.resolves(expected);
+
+			agent
+			.post('/accounts/')
+			.send(expected)
+			.end((err,res) => {
+				expect(res.status).to.equal(201);
+				expect(res.body).to.eql(expected);
+				done();
+			});
+		});
+	})
 
 describe('account.get', () => {
 

@@ -6,22 +6,25 @@
   "scripts": {
     "start": "nodemon index.js",
     "dev": "./node_modules/nodemon/bin/nodemon.js index.js",
-    "test": "NODE_ENV=test mocha ./test --recursive"
+    "test": "mocha test.js"
   },
   "author": "Marcus",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "chai": "^4.2.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "is-empty": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.9",
     "node-dotify": "^1.0.1",
     "nodemon": "^1.19.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
     "sinon": "^7.3.2",
     "sinon-mongoose": "^2.3.0",
-    "supertest": "^4.0.2"
-  },
-  "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^6.1.4"
+    "supertest": "^4.0.2",
+    "validator": "^11.0.0"
   }
 }

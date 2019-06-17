@@ -3,6 +3,7 @@ const cors = require('cors');
 const routes = require('./routes');
 const db = require('./models');
 const app = express();
+const passport = require("passport");
 
 // environment variable PORT or 3000 if unset
 const port = process.env.PORT || 3000;
@@ -17,13 +18,15 @@ app.use((error, req, res, next) => {
   if (res.headersSent) {
     return next(err)
   }
-  res.status(error.statusCode || error.status || 500).send({error: error })
+  res.status(error.statusCode || error.status || 500).send({ error: error })
 })
 
-app.use((req, res, next ) => {
+app.use((req, res, next) => {
   req.models = db.models
   next()
 })
+app.use(passport.initialize());
+require("./config/passport")(passport);
 app.use("/", routes);
 
 
@@ -36,5 +39,5 @@ db.connectDb().then(() => {
 }).catch((error) => {
   console.error(error);
 });
-};
-module.exports = app;
+
+module.exports = app
