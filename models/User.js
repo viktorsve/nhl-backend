@@ -11,6 +11,10 @@ const UserSchema = new mongoose.Schema({
   },
   likedPlayers: [{
     playerId: {
+      type: Number,
+      required: true
+    },
+    name: {
       type: String,
       required: true
     }
