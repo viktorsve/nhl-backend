@@ -20,8 +20,7 @@ put = (req, res, next) => {
       },
       {
         id: req.body.id,
-        $inc: {count: plusOrMinus},
-        $push: {"likedPlayers.playerId" : req.body.id }
+        $inc: {count: plusOrMinus}
       },
       {
         new: true,
