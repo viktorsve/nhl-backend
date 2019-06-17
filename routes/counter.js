@@ -1,4 +1,3 @@
-
 get = (req, res, next) => {
     req.models.Counter.find().then((counts) => {
       return res.send(counts);
