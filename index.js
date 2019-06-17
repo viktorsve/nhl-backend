@@ -18,7 +18,7 @@ app.use((error, req, res, next) => {
   if (res.headersSent) {
     return next(err)
   }
-  res.status(error.statusCode || error.status || 500).send({error: error })
+  res.status(error.statusCode || error.status || 500).send({ error: error })
 })
 
 app.use((req, res, next) => {
