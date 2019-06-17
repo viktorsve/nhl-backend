@@ -8,58 +8,6 @@ const validateLoginInput = require("../validation/login");
 
 const User = require("../models/User");
 
-get = (req, res, next) => {
-  var query;
-  if (req.query.name) {
-    query = req.models.Account.findOne({
-      "account.name": req.query.name
-    })
-  } else {
-    query = req.models.Account.find()
-  }
-
-  query.exec().then((account) => {
-    return res.send(account);
-  }).catch((error) => next(error))
-}
-
-post = (req, res, next) => {
-  req.models.Account.create({
-    account: {
-      name: req.body.account.name,
-    }
-  }).then((account) => {
-    return res.status(201).send(account);
-  }).catch((error) => {
-    next(error);
-  })
-}
-
-getById = (req, res, next) => {
-  req.models.Account.findById(req.params.id).then((account) => {
-    return res.send(account);
-  }).catch((error) => next(error))
-}
-
-deleteById = (req, res, next) => {
-  req.models.Account.findByIdAndDelete(req.params.id).then((deleted) => {
-    if (deleted)
-      return res.send(deleted).status(200)
-    res.sendStatus(204)
-  }).catch((error) => next(error))
-}
-
-patch = (req, res, next) => {
-  req.models.Account.findByIdAndUpdate(req.params.id, {
-    $set: dotify(req.body)
-  }, {
-    returnNewDocument: true,
-  }).then((account) => {
-    console.log(account)
-    res.send(account)
-  }).catch((error) => next(error))
-}
-
 register = (req, res, next) => {
   const {
     errors,
@@ -129,7 +77,7 @@ login = (req, res, next) => {
         jwt.sign(
           payload,
           keys.secretOrKey, {
-            expiresIn: 31556926 // 1 year in seconds
+            expiresIn: 31556926
           },
           (err, token) => {
             res.json({
@@ -149,14 +97,30 @@ login = (req, res, next) => {
   });
 }
 
+getlikes = (req, res, next) => {
+  User.findOne({ username: req.params.username }).then(user => {
+    return res.send(user);
+  })
+}
 
+addlikes = (req, res, next) => {
+  let player = {"playerId": req.body.playerId, "name": req.body.name}
+  User.updateOne({ username: req.params.username }, {$push: {likedPlayers: player}}).then(user => {
+    return res.send(user);
+  })
+}
+
+removelikes = (req, res, next) => {
+  let player = {"playerId": req.body.playerId}
+  User.updateOne({ username: req.params.username }, {$pull: {likedPlayers: player}}).then(user => {
+    return res.send(user);
+  })
+}
 
 module.exports = {
-  get,
-  post,
-  getById,
-  deleteById,
-  patch,
   register,
-  login
+  login,
+  getlikes,
+  addlikes,
+  removelikes
 }
