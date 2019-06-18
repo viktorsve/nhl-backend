@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "dev": "./node_modules/nodemon/bin/nodemon.js index.js",
-    "test": "mocha test.js"
+    "test": "NODE_ENV=test mocha ./test/routes/account.test.js --recursive"
   },
   "author": "Marcus",
   "license": "ISC",
