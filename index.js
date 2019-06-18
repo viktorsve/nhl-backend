@@ -5,9 +5,6 @@ const db = require('./models');
 const app = express();
 const passport = require("passport");
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
-
 // environment variable PORT or 3000 if unset
 const port = process.env.PORT || 3000;
 
@@ -23,8 +20,6 @@ app.use((error, req, res, next) => {
   }
   res.status(error.statusCode || error.status || 500).send({ error: error })
 })
-
-app.use('/nhl-backend', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req, res, next) => {
   req.models = db.models
