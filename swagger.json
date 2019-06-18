@@ -1,0 +1,354 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "nhl-backend",
+    "description": "Users and counter for our NHL app",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "nhl-backend.herokuapp.com",
+  "tags": [{
+    "name": "Listings",
+    "description": "API for users and counter in the system"
+  }],
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": [
+          "Register"
+        ],
+        "summary": "Register a user",
+        "parameters": [{
+          "name": "username",
+          "in": "formData",
+          "required": true,
+          "type": "string"
+        }, {
+          "name": "password1",
+          "in": "formData",
+          "required": true,
+          "type": "string"
+        }, {
+          "name": "password1",
+          "in": "formData",
+          "required": true,
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "Registered user",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Login a user",
+        "parameters": [{
+          "name": "username",
+          "in": "formData",
+          "required": true,
+          "type": "string"
+        }, {
+          "name": "password",
+          "in": "formData",
+          "required": true,
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "Logged in user",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login/{username}": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Update liked players",
+        "parameters": [{
+          "name": "username",
+          "required": true,
+          "in": "path",
+          "type": "string"
+        }, {
+          "name": "playerId",
+          "required": true,
+          "in": "body",
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "Updated liked player",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "get": {
+      "tags": [
+        "Login"
+      ],
+      "summary": "Get liked players",
+      "parameters": [{
+        "name": "username",
+        "required": true,
+        "in": "path",
+        "type": "string"
+      }],
+      "responses": {
+        "200": {
+          "description": "Get liked players",
+          "schema": {
+            "$ref": "#/definitions/user"
+          }
+        },
+        "default": {
+          "description": "unexpected error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "tags": [
+        "Login"
+      ],
+      "summary": "Delete liked player",
+      "parameters": [{
+        "name": "username",
+        "required": true,
+        "in": "path",
+        "type": "string"
+      }, {
+        "name": "playerId",
+        "required": true,
+        "in": "body",
+        "type": "string"
+      }],
+      "responses": {
+        "200": {
+          "description": "Deleted liked player",
+          "schema": {
+            "$ref": "#/definitions/user"
+          }
+        },
+        "default": {
+          "description": "unexpected error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    },
+  },
+  "paths": {
+    "/counter": {
+      "get": {
+        "tags": [
+          "Counter"
+        ],
+        "summary": "Get counters",
+        "responses": {
+          "200": {
+            "description": "Got counters",
+            "schema": {
+              "$ref": "#/definitions/counter"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/counter/{id}": {
+      "get": {
+        "tags": [
+          "Counter"
+        ],
+        "summary": "Get counter for specific player",
+        "parameters": [{
+          "name": "id",
+          "required": true,
+          "in": "path",
+          "type": "string"
+        }],
+        "responses": {
+          "200": {
+            "description": "Counter for specific player",
+            "schema": {
+              "$ref": "#/definitions/counter"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "put": {
+      "tags": [
+        "Counter"
+      ],
+      "summary": "Change counter",
+      "parameters": [{
+        "name": "id",
+        "required": true,
+        "in": "path",
+        "type": "string"
+      }],
+      "responses": {
+        "200": {
+          "description": "Changed counter",
+          "schema": {
+            "$ref": "#/definitions/counter"
+          }
+        },
+        "default": {
+          "description": "unexpected error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    },
+  },
+  "definitions": {
+    "user": {
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "likedPlayers": [{
+          "properties": {
+            "playerId": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+          }
+        }]
+      }
+    },
+    "counters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/counter"
+      }
+    },
+    "counter": {
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "id": {
+          "type": "number"
+        },
+      }
+    },
+    "Error": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
