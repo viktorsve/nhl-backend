@@ -36,6 +36,7 @@ app.use("/", routes);
 
 
 // Start up server and begin listen to requests
+if(process.env.NODE_ENV != "test") {
 db.connectDb().then(() => {
   const listener = app.listen(port, () => {
     console.info(`Server is listening on port ${listener.address().port}.`);
@@ -43,5 +44,6 @@ db.connectDb().then(() => {
 }).catch((error) => {
   console.error(error);
 });
+}
 
 module.exports = app
