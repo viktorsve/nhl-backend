@@ -39,5 +39,6 @@ db.connectDb().then(() => {
 }).catch((error) => {
   console.error(error);
 });
+}
 
 module.exports = app

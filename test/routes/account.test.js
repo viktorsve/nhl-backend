@@ -9,87 +9,142 @@ const app = require('../../index.js')
 const agent = require('supertest').agent(app);
 const expect = require('chai').expect;
 
-const Account = require('../../models/accounts.js')
+const User = require('../../models/User.js')
+const Counter = require('../../models/counter.js')
 
-var accountMock = sinon.mock(Account)
+var userMock = sinon.mock(User)
+var counterMock = sinon.mock(Counter)
 
 beforeEach(() => {
 	console.log("beforeEach")
-	accountMock.restore(); 
+	userMock.restore(); 
+	counterMock.restore();
 });
 
 afterEach( () => {
 	console.log("afterEach")
-	accountMock.verify();
+	userMock.verify();
+	counterMock.verify();
 });
 
-describe('Testing', () => {
+describe('Testing counter', () => {
 	const request = {
-    "account": {
-      "name": "Marcus"
-    }
+		"count": 1,
+		"id": 2
 	}
-	
-  const expected = {
-    "account": {
-      "name": "Marcus"
-    },
-    "_id": "5cff75e89e816de11ba890e1",
-    "__v": 0
-  }
 
-	describe('accounts.post', ()  => {
-		it('Should be able to create a account', (done) => {
-			accountMock
-			.expects('create')
-			.withArgs(request)
-			.chain('exec')
-			.resolves(expected);
+	const expected = {
+		"count": 1,
+		"id": 2
+	}
 
-			agent
-			.post('/accounts/')
-			.send(expected)
-			.end((err,res) => {
-				expect(res.status).to.equal(201);
-				expect(res.body).to.eql(expected);
-				done();
-			});
-		});
-	})
+	const putRequest = {
+		"count": 1,
+		"id": 2
+	}
 
-describe('account.get', () => {
+	const putExpected = {
+		"count": 1,
+		"id": 2
+	}
 
-  it('Should return our accounts', (done) => {
+	it('Should return our counter', (done) => {
     
-    accountMock
+    counterMock
 		.expects('find')
 		.chain('exec')
 		.resolves([expected]);
 
 		agent
-		.get('/accounts')
+		.get('/counter')
 		.end((err,res) => {
+			console.log(res.body)
+			expect(res.status).to.equal(200);
+			expect(res.body).to.eql([expected]);
+			done();
+    })
+	})
+
+	it('Should return a specific counter', (done) => {
+    
+    counterMock
+		.expects('findOne')
+		.chain('exec')
+		.resolves([expected]);
+
+		agent
+		.get('/counter/2')
+		.end((err,res) => {
+			console.log(res.body)
+			expect(res.status).to.equal(200);
+			expect(res.body).to.eql([expected]);
+			done();
+    })
+	})
+
+	it('Should return a specific counter', (done) => {
+    
+    counterMock
+		.expects('findOneAndUpdate')
+		.withArgs({id:2})
+		.chain('exec')
+		.resolves({ n: 1,
+			nModified: 0,
+			upserted: [ { id: 2 } ],
+			ok: 1 });
+
+		agent
+		.put('/counter/2')
+		.send(putRequest)
+		.end((err,res) => {
+			expect(res.status).to.equal(201);
+			done();
+    })
+	})
+
+})
+
+describe('Testing', () => {
+	const request = {
+		"username": "oskar",
+		"password": "ads",
+			"likedPlayers": [{
+				"playerId": 6463,
+				"name": "Kalle",
+			}]
+    }
+
+	
+  const expected = {
+    "username": "oskar",
+		"password": "ads",
+			"likedPlayers": [{
+				"playerId": 6463,
+				"name": "Kalle",
+			}],
+    "_id": "5cff75e89e816de11ba890e1",
+    "__v": 0
+	}
+
+
+describe('account.getlikes', () => {
+
+  it('Should return our accounts', (done) => {
+    
+    userMock
+		.expects('findOne')
+		.chain('exec')
+		.resolves([expected]);
+
+		agent
+		.get('/login/oskar')
+		.end((err,res) => {
+			console.log(res.body)
 			expect(res.status).to.equal(200);
 			expect(res.body).to.eql([expected]);
 			done();
     })
 	})
 	
-	it('Should get a user by name', (done) => {
-
-		accountMock
-		.expects('findOne')
-		.chain('exec')
-		.resolves(expected);
-
-		agent
-		.get('/accounts?name=Marcus')
-		.end((err, res) => {
-			expect(res.status).to.equal(200);
-			expect(res.body).to.eql(expected);
-			done();
-		})
-
-	})
 });
 });
